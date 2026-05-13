@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - HackHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">HackHub</a>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="register.html">Регистрация</a>
+                <a href="dashboard.html" class="active">Кабинет</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="dashboard">
+            <!-- Профиль пользователя -->
+            <div class="profile-card">
+                <h2>Профиль участника</h2>
+                <div id="userInfo">
+                    <p><strong>Имя:</strong> <span id="userName">-</span></p>
+                    <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+                    <p><strong>Telegram:</strong> <span id="userTelegram">-</span></p>
+                    <p><strong>Навыки:</strong> <span id="userSkills">-</span></p>
+                    <p><strong>Дата регистрации:</strong> <span id="registrationDate">-</span></p>
+                </div>
+                <a href="register.html" class="btn-small">Редактировать профиль</a>
+            </div>
+
+            <!-- Уведомления -->
+            <div class="notifications">
+                <h3>Уведомления Telegram</h3>
+                <p>Получайте напоминания о старте хакатонов прямо в Telegram.</p>
+                <button id="notifyBtn" class="btn">Отправить тестовое уведомление</button>
+                <div id="notifyStatus" class="message"></div>
+            </div>
+
+            <!-- Мои хакатоны -->
+            <div class="my-hackathons">
+                <h3>Доступные хакатоны</h3>
+                <div id="hackathonsList">
+                    <!-- Хакатоны загружаются через JS -->
+                    <div class="event-card">
+                        <h4>AI Innovation Hack</h4>
+                        <p>15 мая 2026 |  48 часов</p>
+                        <p>Разработка решений на базе искусственного интеллекта</p>
+                        <p>Участников: 156</p>
+                        <p class="status">Зарегистрирован</p>
+                    </div>
+                    
+                    <div class="event-card">
+                        <h4>Web Dev Challenge</h4>
+                        <p>22 мая 2026 | ⏱24 часа</p>
+                        <p>Создание веб-приложений с современным стеком</p>
+                        <p>Участников: 89</p>
+                        <button class="btn-small" onclick="alert('Функция регистрации в разработке')">Зарегистрироваться</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статистика -->
+            <div class="stats-card">
+                <h3>Ваша статистика</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="statHackathons">1</span>
+                        <span class="stat-label">Хакатонов пройдено</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="statRating"></span>
+                        <span class="stat-label">Рейтинг</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="statTeam">-</span>
+                        <span class="stat-label">Команда</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HackHub. Все права защищены.</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

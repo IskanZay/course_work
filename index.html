@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackHub - Платформа хакатонов</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">HackHub</a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Главная</a>
+                <a href="register.html">Регистрация</a>
+                <a href="dashboard.html">Кабинет</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Создавай будущее на хакатонах</h1>
+            <p>Платформа для регистрации и проведения IT-соревнований</p>
+            <a href="#" class="btn" onclick="startShow(); return false;">Участвовать</a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>Регистрация</h3>
+                <p>Быстрая регистрация за 2 минуты. Заполните форму и получите доступ к хакатонам.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Хакатоны</h3>
+                <p>Участие в соревнованиях от ведущих компаний. Реальные задачи и призы.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Результаты</h3>
+                <p>Отслеживание прогресса, достижений и сертификатов в личном кабинете.</p>
+            </div>
+        </section>
+
+        <section class="upcoming">
+            <h2>Ближайшие хакатоны</h2>
+            
+            <div class="event-card">
+                <h3>AI Innovation Hack</h3>
+                <p>15 мая 2026 | 48 часов</p>
+                <p>Разработка решений на базе искусственного интеллекта для социальных задач.</p>
+                <p>Участников: 156</p>
+                <a href="register.html" class="btn-small">Зарегистрироваться</a>
+            </div>
+
+            <div class="event-card">
+                <h3>Web Dev Challenge</h3>
+                <p>22 мая 2026 | 24 часа</p>
+                <p>Создание веб-приложений с современным стеком технологий.</p>
+                <p>Участников: 89</p>
+                <a href="register.html" class="btn-small">Зарегистрироваться</a>
+            </div>
+
+            <div class="event-card">
+                <h3>Mobile First</h3>
+                <p>5 июня 2026 | 36 часов</p>
+                <p>Разработка мобильных приложений для стартапов.</p>
+                <p>Участников: 67</p>
+                <a href="register.html" class="btn-small">Зарегистрироваться</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HackHub. Все права защищены.</p>
+    </footer>
+
+    <script>
+    function startShow() {
+        setTimeout(()=> location.href='register.html', 0);
+    }
+    </script>
+</body>
+</html>

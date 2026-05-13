@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - HackHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">HackHub</a>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="register.html" class="active">Регистрация</a>
+                <a href="dashboard.html">Кабинет</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="form-section">
+            <h2>Регистрация участника</h2>
+            <p class="form-description">Заполните форму для участия в хакатонах. Все поля обязательны.</p>
+            
+            <form id="registerForm" class="form">
+                <div class="form-group">
+                    <label for="name">ФИО *</label>
+                    <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telegram">Telegram username *</label>
+                    <input type="text" id="telegram" name="telegram" placeholder="@username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="skills">Навыки (через запятую)</label>
+                    <input type="text" id="skills" name="skills" placeholder="JavaScript, Python, Design">
+                </div>
+
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </form>
+            
+            <div id="message" class="message"></div>
+            
+            <p class="form-note">
+                Нажимая кнопку, вы соглашаетесь с <a href="#">правилами платформы</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HackHub. Все права защищены.</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
