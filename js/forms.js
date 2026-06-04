@@ -2,10 +2,9 @@ import { Validators } from './validators.js';
 import { UserAPI, HackathonAPI } from './api.js';
 import { bot } from './telegram.js';
 import { UI } from './ui.js';
-import { CONFIG } from './config.js'
+import { CONFIG } from './config.js';
 
-// Обработчик формы регистрации
-export const RegisterForm = {
+class RegisterFormClass {
     init() {
         const form = document.getElementById('registerForm');
         if (!form) return;
@@ -15,9 +14,8 @@ export const RegisterForm = {
             await this.handleSubmit(form);
         });
 
-
         this.addRealTimeValidation(form);
-    },
+    }
 
     async handleSubmit(form) {
         const formData = {
@@ -27,13 +25,11 @@ export const RegisterForm = {
             skills: document.getElementById('skills').value.trim()
         };
 
-
         const validation = Validators.validateRegisterForm(formData);
         if (!validation.isValid) {
             UI.showError('message', validation.errors.join(', '));
             return;
         }
-
 
         UI.showLoading('message', 'Регистрация...');
 
@@ -43,12 +39,10 @@ export const RegisterForm = {
                 throw new Error('Не удалось сохранить данные');
             }
 
-            // Увед в тг
             const telegramResult = await bot.sendRegistration(formData);
             
             if (telegramResult.success) {
                 UI.showSuccess('message', 'Регистрация успешна! Переходим в личный кабинет...');
-                
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1500);
@@ -62,11 +56,10 @@ export const RegisterForm = {
             console.error('Registration error:', error);
             UI.showError('message', 'Ошибка: ' + error.message);
         }
-    },
+    }
 
     addRealTimeValidation(form) {
         const inputs = form.querySelectorAll('input');
-        
         inputs.forEach(input => {
             input.addEventListener('blur', () => {
                 this.validateField(input);
@@ -76,7 +69,7 @@ export const RegisterForm = {
                 input.classList.remove('error');
             });
         });
-    },
+    }
 
     validateField(input) {
         const value = input.value.trim();
@@ -105,10 +98,13 @@ export const RegisterForm = {
 
         return isValid;
     }
-};
+}
 
-// Обработчик личного кабинета
-export const Dashboard = {
+class DashboardClass {
+    constructor() {
+        this.chatLogContainer = null;
+    }
+
     async init() {
         const userInfo = document.getElementById('userInfo');
         if (!userInfo) return;
@@ -116,14 +112,14 @@ export const Dashboard = {
         await this.loadUserData();
         this.initNotificationButton();
         this.renderHackathons();
-    },
+        this.initTelegramReceiver();
+    }
 
     async loadUserData() {
         const user = UserAPI.get();
-        
-        if (!user) {
-            window.location.href = 'register.html';
-            return;
+        if (!user) { 
+            window.location.href = 'register.html'; 
+            return; 
         }
 
         UI.updateText('userName', user.name);
@@ -131,12 +127,11 @@ export const Dashboard = {
         UI.updateText('userTelegram', user.telegram);
         UI.updateText('userSkills', user.skills);
 
-
         const regDate = document.getElementById('registrationDate');
         if (regDate && user.registeredAt) {
             UI.updateText('registrationDate', UI.formatDate(user.registeredAt));
         }
-    },
+    }
 
     initNotificationButton() {
         const notifyBtn = document.getElementById('notifyBtn');
@@ -151,7 +146,6 @@ export const Dashboard = {
 
             try {
                 const result = await bot.sendTest(user.name);
-                
                 if (result.success) {
                     UI.updateText('notifyStatus', 'Уведомление отправлено!');
                     UI.addClass('notifyStatus', 'success');
@@ -171,12 +165,11 @@ export const Dashboard = {
                 UI.removeClass('notifyStatus', 'error');
             }, 3000);
         });
-    },
+    }
 
     renderHackathons() {
         const hackathons = HackathonAPI.getAll();
         const container = document.querySelector('.my-hackathons');
-        
         if (!container) return;
 
         const user = UserAPI.get();
@@ -201,10 +194,51 @@ export const Dashboard = {
 
         UI.updateHTML('hackathonsList', html);
     }
-};
 
-// Регистрация 
-export const RegisterHackathon = {
+    initTelegramReceiver() {
+        const mainContainer = document.querySelector('main') || document.body;
+        this.chatLogContainer = UI.createElement('div', 'telegram-log-panel', '');
+        this.chatLogContainer.innerHTML = `
+            <h3 style="margin-top: 30px; border-bottom: 2px solid #4CAF50; padding-bottom: 10px;">
+                Входящие сообщения Telegram (Live)
+            </h3>
+            <div id="telegramMessagesList" style="max-height: 300px; overflow-y: auto; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                <p style="color: #888; font-style: italic;">Ожидание сообщений от бота...</p>
+            </div>
+        `;
+        mainContainer.appendChild(this.chatLogContainer);
+
+        bot.setOnMessageCallback((msgData) => {
+            this.addMessageToLog(msgData);
+        });
+
+        bot.init();
+        bot.startPolling(2000);
+    }
+
+    addMessageToLog({ userName, text, time }) {
+        const list = document.getElementById('telegramMessagesList');
+        if (!list) return;
+
+        if (list.children.length === 1 && list.children[0].textContent.includes('Ожидание')) {
+            list.innerHTML = '';
+        }
+
+        const msgElement = UI.createElement('div', 'tg-message-item', '');
+        msgElement.style.cssText = 'margin-bottom: 10px; padding: 10px; background: white; border-left: 4px solid #0088cc; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);';
+        msgElement.innerHTML = `
+            <div style="display: flex; justify-content: space-between; font-size: 0.85em; color: #666; margin-bottom: 4px;">
+                <strong>${userName}</strong>
+                <span>${time}</span>
+            </div>
+            <div style="color: #333;">${text}</div>
+        `;
+        
+        list.insertBefore(msgElement, list.firstChild);
+    }
+}
+
+class RegisterHackathonClass {
     async register(hackathonId) {
         const user = UserAPI.get();
         if (!user) {
@@ -217,19 +251,17 @@ export const RegisterHackathon = {
         
         if (success) {
             const hackathon = HackathonAPI.getById(hackathonId);
-            
-            // Увед
-            await bot.sendMessage(
-                CONFIG.CHAT_ID,
-                `${user.name} зарегистрировался на хакатон "${hackathon.title}"!`
-            );
-
+            await bot.sendMessage(CONFIG.CHAT_ID, `${user.name} зарегистрировался на хакатон "${hackathon.title}"!`);
             alert('Вы успешно зарегистрировались!');
             Dashboard.renderHackathons();
         } else {
             alert('Вы уже зарегистрированы на этот хакатон');
         }
     }
-};
+}
+
+export const RegisterForm = new RegisterFormClass();
+export const Dashboard = new DashboardClass();
+export const RegisterHackathon = new RegisterHackathonClass();
 
 export default { RegisterForm, Dashboard, RegisterHackathon };

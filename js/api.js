@@ -1,8 +1,6 @@
 import { CONFIG } from './config.js';
 
-
-export const Storage = {
-
+class StorageClass {
     set(key, data) {
         try {
             localStorage.setItem(key, JSON.stringify(data));
@@ -11,8 +9,7 @@ export const Storage = {
             console.error('Storage set error:', error);
             return false;
         }
-    },
-
+    }
 
     get(key) {
         try {
@@ -22,8 +19,7 @@ export const Storage = {
             console.error('Storage get error:', error);
             return null;
         }
-    },
-
+    }
 
     remove(key) {
         try {
@@ -33,8 +29,7 @@ export const Storage = {
             console.error('Storage remove error:', error);
             return false;
         }
-    },
-
+    }
 
     clear() {
         try {
@@ -45,42 +40,45 @@ export const Storage = {
             return false;
         }
     }
-};
+}
 
+class UserAPIClass {
+    constructor() {
+        this.storage = new StorageClass();
+    }
 
-export const UserAPI = {
-    // Сохранить пользователя
     save(userData) {
         userData.registeredAt = new Date().toISOString();
         userData.id = Date.now();
-        return Storage.set(CONFIG.STORAGE_KEYS.USER, userData);
-    },
+        return this.storage.set(CONFIG.STORAGE_KEYS.USER, userData);
+    }
 
     get() {
-        return Storage.get(CONFIG.STORAGE_KEYS.USER);
-    },
-
+        return this.storage.get(CONFIG.STORAGE_KEYS.USER);
+    }
 
     update(updates) {
         const user = this.get();
         if (!user) return false;
-        
         const updatedUser = { ...user, ...updates };
         return this.save(updatedUser);
-    },
-
+    }
 
     logout() {
-        return Storage.remove(CONFIG.STORAGE_KEYS.USER);
+        return this.storage.remove(CONFIG.STORAGE_KEYS.USER);
     }
-};
+}
 
+class HackathonAPIClass {
+    constructor() {
+        this.storage = new StorageClass();
+        this.userAPI = new UserAPIClass();
+    }
 
-export const HackathonAPI = {
     getAll() {
-        const hackathons = Storage.get(CONFIG.STORAGE_KEYS.HACKATHONS);
+        const hackathons = this.storage.get(CONFIG.STORAGE_KEYS.HACKATHONS);
         return hackathons || this.getDefaultHackathons();
-    },
+    }
 
     getDefaultHackathons() {
         const defaultHackathons = [
@@ -113,17 +111,17 @@ export const HackathonAPI = {
             }
         ];
         
-        Storage.set(CONFIG.STORAGE_KEYS.HACKATHONS, defaultHackathons);
+        this.storage.set(CONFIG.STORAGE_KEYS.HACKATHONS, defaultHackathons);
         return defaultHackathons;
-    },
+    }
 
     getById(id) {
         const hackathons = this.getAll();
         return hackathons.find(h => h.id === id);
-    },
+    }
 
     register(hackathonId) {
-        const user = UserAPI.get();
+        const user = this.userAPI.get();
         if (!user) return false;
 
         if (!user.registeredHackathons) {
@@ -132,12 +130,16 @@ export const HackathonAPI = {
 
         if (!user.registeredHackathons.includes(hackathonId)) {
             user.registeredHackathons.push(hackathonId);
-            UserAPI.save(user);
+            this.userAPI.save(user);
             return true;
         }
 
         return false;
     }
-};
+}
+
+export const Storage = new StorageClass();
+export const UserAPI = new UserAPIClass();
+export const HackathonAPI = new HackathonAPIClass();
 
 export default { Storage, UserAPI, HackathonAPI };

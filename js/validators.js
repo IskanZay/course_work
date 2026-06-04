@@ -1,28 +1,22 @@
-
-export const Validators = {
-    
+class ValidatorsClass {
     isValidEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
-    },
+    }
 
-   
     isValidName(name) {
         return name.length >= 2 && name.length <= 50;
-    },
+    }
 
-    
     isValidTelegram(username) {
         const re = /^@?[\w]{5,32}$/;
         return re.test(username);
-    },
+    }
 
-   
     isValidSkills(skills) {
         return skills.length > 0 && skills.length <= 200;
-    },
+    }
 
-  
     validateRegisterForm(data) {
         const errors = [];
 
@@ -47,6 +41,7 @@ export const Validators = {
             errors: errors
         };
     }
-};
+}
 
+export const Validators = new ValidatorsClass();
 export default Validators;
