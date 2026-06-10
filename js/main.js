@@ -1,4 +1,4 @@
-import { RegisterForm, Dashboard } from './forms.js';
+import { RegisterForm, Dashboard, RegisterHackathon } from './forms.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('HackHub Platform initialized');
@@ -35,7 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.HackHub = {
     RegisterForm,
-    Dashboard
+    Dashboard,
+    RegisterHackathon  
 };
 
-export default { RegisterForm, Dashboard };
+window.RegisterHackathon = RegisterHackathon;
+
+export default { RegisterForm, Dashboard, RegisterHackathon };

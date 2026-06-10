@@ -204,57 +204,47 @@ a:hover {
     max-width: 500px;
     margin: 0 auto 60px;
 }
-
 .form-description {
     color: #666666;
     margin-bottom: 30px;
     text-align: center;
 }
-
 .form {
     background: #ffffff;
 }
-
 .form-group {
     margin-bottom: 24px;
 }
-
-.form-group label {
+.form-group__label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
     color: #222222;
 }
-
-.form-group input {
+.form-group__input {
     width: 100%;
     padding: 14px;
     border: 1px solid #e0e0e0;
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
-
-.form-group input:focus {
+.form-group__input:focus {
     outline: none;
     border-color: #000000;
 }
-
-.form-group input.error {
+.form-group__input--error {
     border-color: #f44336;
     background: #ffebee;
 }
-
 .form .btn {
     width: 100%;
 }
-
 .form-note {
     margin-top: 20px;
     text-align: center;
     color: #666666;
     font-size: 14px;
 }
-
 .form-note a {
     border-bottom: 1px solid #666666;
 }

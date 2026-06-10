@@ -1,5 +1,4 @@
 import { CONFIG } from './config.js';
-
 class BotClass {
     constructor() {
         this.lastUpdateId = 0;

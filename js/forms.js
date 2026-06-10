@@ -59,14 +59,15 @@ class RegisterFormClass {
     }
 
     addRealTimeValidation(form) {
-        const inputs = form.querySelectorAll('input');
+        const inputs = form.querySelectorAll('.form-group__input');
+        
         inputs.forEach(input => {
             input.addEventListener('blur', () => {
                 this.validateField(input);
             });
 
             input.addEventListener('input', () => {
-                input.classList.remove('error');
+                input.classList.remove('form-group__input--error');
             });
         });
     }
@@ -91,9 +92,9 @@ class RegisterFormClass {
         }
 
         if (!isValid && value.length > 0) {
-            input.classList.add('error');
+            input.classList.add('form-group__input--error');
         } else {
-            input.classList.remove('error');
+            input.classList.remove('form-group__input--error');
         }
 
         return isValid;
